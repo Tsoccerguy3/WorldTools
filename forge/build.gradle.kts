@@ -47,5 +47,7 @@ tasks {
             expand(getProperties())
             expand(mutableMapOf("version" to project.version))
         }
+
+        from(loom.accessWidenerPath.get())
     }
 }
