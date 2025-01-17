@@ -11,10 +11,8 @@ import net.minecraft.util.ThrowableDeliverer
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.ChunkPos
 import net.minecraft.world.World
-import net.minecraft.world.chunk.WorldChunk
 import net.minecraft.world.storage.RegionFile
 import net.minecraft.world.storage.StorageKey
-import org.waste.of.time.WorldTools.LOG
 import org.waste.of.time.WorldTools.MCA_EXTENSION
 import org.waste.of.time.WorldTools.MOD_NAME
 import org.waste.of.time.WorldTools.mc
@@ -80,7 +78,7 @@ open class CustomRegionBasedStorage internal constructor(
                 runCatching {
                     val block = Registries.BLOCK.get(blockStateIdentifier)
                     Registries.BLOCK_ENTITY_TYPE
-                        .getOrEmpty(blockStateIdentifier)
+                        .getOptionalValue(blockStateIdentifier)
                         .orElse(null)
                         ?.instantiate(blockPos, block.defaultState)?.apply {
                             read(compoundTag, world.registryManager)

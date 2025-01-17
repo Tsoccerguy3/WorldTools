@@ -121,7 +121,9 @@ class LevelDataStoreable : Storeable() {
         putByte("Difficulty", player.world.levelProperties.difficulty.id.toByte())
         putBoolean("DifficultyLocked", false) // not sure
 
-        put("GameRules", genGameRules(player.world.gameRules))
+        // ToDo: Seems that the client side game rules were removed. Now only works for single player :/
+        val rules = player.world?.server?.gameRules?.genGameRules() ?: NbtCompound()
+        put("GameRules", rules)
         put("Player", NbtCompound().apply {
             player.writeNbt(this)
             remove("LastDeathLocation") // can contain sensitive information
@@ -137,7 +139,7 @@ class LevelDataStoreable : Storeable() {
         // skip wandering trader id
     }
 
-    private fun genGameRules(gameRules: GameRules) = gameRules.toNbt().apply {
+    private fun GameRules.genGameRules() = toNbt().apply {
         val setting = config.world.gameRules
         if (!setting.modifyGameRules) return@apply
 
